@@ -78,9 +78,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME': 'epicCRM_db',
+        'NAME': 'epiccrm_db',
         'USER': 'user1',
-        'PASSOWRD': 'epic_Passw0rd',
+        'PASSWORD': 'epic_Passw0rd',
         'HOST': 'localhost',
         'PORT': 5432,
     }
@@ -127,3 +127,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Added for this project
+AUTH_USER_MODEL = 'EpicAPI.EpicTeamMember'
