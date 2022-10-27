@@ -43,7 +43,7 @@ class Contract(models.Model):
     client = models.ForeignKey(Client, null=False, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    status = models.BooleanField(help_text="True if paid, False if payment pending")
+    status = models.BooleanField(help_text="True if signed, False if not signed")
     amount = models.FloatField()
     payment_due = models.DateTimeField()
     # need to add foreign key towards Event ?
