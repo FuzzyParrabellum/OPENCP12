@@ -17,6 +17,10 @@ class EpicTeamMember(AbstractUser):
 
     role = models.CharField(max_length=20, choices=ROLE_CHOICES,
                             verbose_name="Epic Events Team's Choice")
+    is_staff = True
+
+    def __str__(self):
+        return "{} ({})".format(self.username, self.role)
 
 
 class Client(models.Model):
@@ -35,6 +39,9 @@ class Client(models.Model):
     existing_client = models.BooleanField(help_text="True if client with active or past\
                                           events, False is not")
 
+    def __str__(self):
+        return "Client n°{} {} {}".format(self.id, self.first_name, self.last_name)
+
 class Contract(models.Model):
 
     sales_contact = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -44,7 +51,7 @@ class Contract(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     status = models.BooleanField(help_text="True if signed, False if not signed")
-    amount = models.FloatField()
+    amount = models.FloatField(help_text="Montant du contrat en euros")
     payment_due = models.DateTimeField()
     # need to add foreign key towards Event ?
 
