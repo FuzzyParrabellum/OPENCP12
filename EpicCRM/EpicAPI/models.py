@@ -18,10 +18,12 @@ class EpicTeamMember(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES,
                             verbose_name="Epic Events Team's Choice")
     is_staff = True
-
+    REQUIRED_FIELDS = ["role"]
 
     def __str__(self):
         return "{} ({})".format(self.username, self.role)
+
+    
 
 
 class Client(models.Model):

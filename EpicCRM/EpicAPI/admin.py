@@ -36,9 +36,8 @@ class EpicTeamMemberAdmin(UserAdmin):
     list_filter = ('role',)
     # ordering = ["username"]
     fieldsets = (
-        ('Required', {'fields':("username", "password")}), 
+        ('Required', {'fields':("username", "password", "role")}), 
         ('Personal info', {'fields':("first_name", "last_name", "email")}),
-        ('Team choice', {'fields':("role",)}),
          )
     search_fields = ("id", "username")
     # def save_model(self, request, obj, form, change):
