@@ -19,6 +19,7 @@ class EpicTeamMember(AbstractUser):
                             verbose_name="Epic Events Team's Choice")
     is_staff = True
 
+
     def __str__(self):
         return "{} ({})".format(self.username, self.role)
 

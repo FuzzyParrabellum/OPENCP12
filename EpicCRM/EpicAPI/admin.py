@@ -31,17 +31,20 @@ class EventAdmin(admin.ModelAdmin):
     def client_fullname(self, obj):
         return f"{obj.client.last_name} {obj.client.first_name}"
 
-class EpicTeamMemberAdmin(admin.ModelAdmin):
+class EpicTeamMemberAdmin(UserAdmin):
     list_display = ('id', 'role', 'username', 'email')
     list_filter = ('role',)
     # ordering = ["username"]
-    fields = ("username", "password", "first_name", "last_name", "email", "role")
+    fieldsets = (
+        ('Required', {'fields':("username", "password")}), 
+        ('Personal info', {'fields':("first_name", "last_name", "email")}),
+        ('Team choice', {'fields':("role",)}),
+         )
     search_fields = ("id", "username")
     # def save_model(self, request, obj, form, change):
     #     obj = form.save(commit=False)
     #     obj.is_staff = True
     #     obj.save()
-
 
 admin.site.register(EpicTeamMember, EpicTeamMemberAdmin)
 admin.site.register(Client, ClientAdmin)
