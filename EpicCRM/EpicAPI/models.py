@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
+
 
 # Create your models here.
 class EpicTeamMember(AbstractUser):
@@ -23,6 +24,25 @@ class EpicTeamMember(AbstractUser):
     def __str__(self):
         return "{} ({})".format(self.username, self.role)
 
+    def save(self, *args, **kwargs):
+        if self.groups.all().exists():
+            # If the user is already in a group, remove him 
+            # from old group and move him to new group
+            self.groups.clear()
+            if self.role == 'MANAGER':
+                self.groups.add(Group.objects.get(name='manager_team'))
+            elif self.role == 'SUPPORT':
+                self.groups.add(Group.objects.get(name='support_team'))
+            elif self.role == 'SALES':
+                self.groups.add(Group.objects.get(name='sales_team'))
+            return super().save(*args, **kwargs)
+        if self.role == 'MANAGER':
+            self.groups.add(Group.objects.get(name='manager_team'))
+        elif self.role == 'SUPPORT':
+            self.groups.add(Group.objects.get(name='support_team'))
+        elif self.role == 'SALES':
+            self.groups.add(Group.objects.get(name='sales_team'))
+        return super().save(*args, **kwargs)
     
 
 

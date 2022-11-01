@@ -13,6 +13,7 @@ class ClientAdmin(admin.ModelAdmin):
     list_display = ('id', 'last_name','first_name','company_name', 'sales_contact', 
                     'existing_client')
     list_filter = ('existing_client',)
+    
     # istartswith for case insensitive search
     search_fields = ("last_name__istartswith", )
 
