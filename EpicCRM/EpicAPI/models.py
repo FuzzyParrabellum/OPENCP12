@@ -63,7 +63,7 @@ class Client(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
     sales_contact = models.ForeignKey(settings.AUTH_USER_MODEL,
                                         on_delete=models.SET_NULL, null=True,
-                                        blank=True)
+                                        blank=True, limit_choices_to={'role':'SALES'})
     existing_client = models.BooleanField(help_text="True if client with active or past\
                                           events, False is not")
 
@@ -74,7 +74,7 @@ class Contract(models.Model):
 
     sales_contact = models.ForeignKey(settings.AUTH_USER_MODEL,
                                         on_delete=models.SET_NULL, null=True,
-                                        blank=True)
+                                        blank=True, limit_choices_to={'role':'SALES'})
     client = models.ForeignKey(Client, null=False, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -93,7 +93,7 @@ class Event(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
     support_contact = models.ForeignKey(settings.AUTH_USER_MODEL,
                                         on_delete=models.SET_NULL, null=True,
-                                        blank=True)
+                                        blank=True, limit_choices_to={'role':'SUPPORT'})
     event_status = models.BooleanField(help_text="True if ongoing, False if over")
     attendees = models.IntegerField()
     event_date = models.DateTimeField()

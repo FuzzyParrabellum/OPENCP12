@@ -35,6 +35,15 @@ class ClientAdmin(admin.ModelAdmin):
         else:
             return False
 
+    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #     if db_field.name == 'user':
+    #         kwargs['limit_choices_to'] = {'user': request.user}
+    #     return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #     kwargs["queryset"] = EpicTeamMember.objects.filter(role='SALES')
+    #     return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 class ContractAdmin(admin.ModelAdmin):
     list_display = ('id', 'client_fullname', 'sales_contact', 'status', 'payment_due')
     list_filter = ('status',)
