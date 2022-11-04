@@ -22,11 +22,15 @@ class EpicTeamMember(AbstractUser):
     REQUIRED_FIELDS = ["role"]
 
     def __str__(self):
-        return "{} ({})".format(self.username, self.role)
+        return "{} {} ({})".format(self.first_name ,self.username, self.role)
 
     def save(self, *args, **kwargs):
+        if not self.id:
+            # check if the user has been created yet, if not then we are halfway
+            # through the user creation form and the line below will run
+            return super().save(*args, **kwargs)
         if self.groups.all().exists():
-            # If the user is already in a group, remove him 
+            # If the user is already in a group (then we are in edit mode), remove him 
             # from old group and move him to new group
             self.groups.clear()
             if self.role == 'MANAGER':
@@ -36,6 +40,7 @@ class EpicTeamMember(AbstractUser):
             elif self.role == 'SALES':
                 self.groups.add(Group.objects.get(name='sales_team'))
             return super().save(*args, **kwargs)
+        # The conditionnals below will only run after first adding a user to a group
         if self.role == 'MANAGER':
             self.groups.add(Group.objects.get(name='manager_team'))
         elif self.role == 'SUPPORT':
@@ -63,7 +68,7 @@ class Client(models.Model):
                                           events, False is not")
 
     def __str__(self):
-        return "Client n°{} {} {}".format(self.id, self.first_name, self.last_name)
+        return "Client n°{} {} {}".format(self.id, self.first_name, self.last_name)
 
 class Contract(models.Model):
 
@@ -74,9 +79,11 @@ class Contract(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     status = models.BooleanField(help_text="True if signed, False if not signed")
-    amount = models.FloatField(help_text="Montant du contrat en euros")
+    amount = models.FloatField(help_text="Contract amount in euros")
     payment_due = models.DateTimeField()
-    # need to add foreign key towards Event ?
+
+    def __str__(self):
+        return f"Contract #{self.id} for {self.client}"
 
 class Event(models.Model):
 
@@ -91,3 +98,6 @@ class Event(models.Model):
     attendees = models.IntegerField()
     event_date = models.DateTimeField()
     notes = models.TextField(max_length=1000)
+
+    def __str__(self):
+        return f"Event #{self.id} for {self.contract}"
