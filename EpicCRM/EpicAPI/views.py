@@ -2,36 +2,38 @@ from django.shortcuts import render
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 from EpicAPI.models import EpicTeamMember, Client, Contract, Event
 from EpicAPI.serializers import EpicTeamMemberSerializer, ClientSerializer,\
                             ContractSerializer, EventSerializer
 # Create your views here.
 
-class EpicTeamMemberAPIView(APIView):
+class EpicTeamMemberViewset(ModelViewSet):
 
-    def get(self, *args, **kwargs):
-        epic_members = EpicTeamMember.objects.all()
-        serializer = EpicTeamMemberSerializer(epic_members, many=True)
-        return Response(serializer.data)
+    serializer_class = EpicTeamMemberSerializer
 
-class ClientAPIView(APIView):
+    def get_queryset(self):
+        return EpicTeamMember.objects.all()
 
-    def get(self, *args, **kwargs):
-        clients = Client.objects.all()
-        serializer = ClientSerializer(clients, many=True)
-        return Response(serializer.data)
+class ClientViewset(ModelViewSet):
 
-class ContractAPIView(APIView):
+    serializer_class = ClientSerializer
 
-    def get(self, *args, **kwargs):
-        contracts = Contract.objects.all()
-        serializer = ContractSerializer(contracts, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        return Client.objects.all()
 
-class EventAPIView(APIView):
+class ContractViewset(ModelViewSet):
 
-    def get(self, *args, **kwargs):
-        events = Event.objects.all()
-        serializer = EventSerializer(events, many=True)
-        return Response(serializer.data)
+    serializer_class = ContractSerializer
+
+    def get_queryset(self):
+        return Contract.objects.all()
+
+class EventViewset(ModelViewSet):
+
+    serializer_class = EventSerializer
+
+    def get_queryset(self):
+        return Event.objects.all()
+

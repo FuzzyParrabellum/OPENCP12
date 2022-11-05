@@ -16,15 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from EpicAPI.views import EpicTeamMemberAPIView, ClientAPIView, ContractAPIView,\
-                        EventAPIView
+from rest_framework import routers
+
+from EpicAPI.views import EpicTeamMemberViewset, ClientViewset, ContractViewset,\
+                        EventViewset
+
+router = routers.SimpleRouter()
+
+router.register('EpicTeamMember', EpicTeamMemberViewset, basename='epicteammember')
+router.register('Client', ClientViewset, basename='client')
+router.register('Contract', ContractViewset, basename='contract')
+router.register('Event', EventViewset, basename='event')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/EpicTeamMember/', EpicTeamMemberAPIView.as_view()),
-    path('api/Contract/', ContractAPIView.as_view()),
-    path('api/Client/', ClientAPIView.as_view()),
-    path('api/Event/', EventAPIView.as_view()),
+    path('api/', include(router.urls))
 ]
