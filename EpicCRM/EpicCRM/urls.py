@@ -14,8 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+from EpicAPI.views import EpicTeamMemberAPIView, ClientAPIView, ContractAPIView,\
+                        EventAPIView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/EpicTeamMember/', EpicTeamMemberAPIView.as_view()),
+    path('api/Contract/', ContractAPIView.as_view()),
+    path('api/Client/', ClientAPIView.as_view()),
+    path('api/Event/', EventAPIView.as_view()),
 ]
