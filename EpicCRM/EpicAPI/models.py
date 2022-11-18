@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser, Group, Permission
 
 
-# Create your models here.
 class EpicTeamMember(AbstractUser):
 
     MANAGER = 'MANAGER'
